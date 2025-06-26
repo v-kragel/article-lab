@@ -12,7 +12,7 @@
   "jsxBracketSameLine": true,
   "endOfLine": "lf",
   "plugins": ["@trivago/prettier-plugin-sort-imports"],
-  "importOrder": ["^react$", "^react-dom$", "^@/(.*)$", "^[./]"],
+  "importOrder": ["react", "^(?!react)\\w+$", "^@/(.*)$", "^[./]"],
   "importOrderSeparation": true,
   "importOrderSortSpecifiers": true
 }
