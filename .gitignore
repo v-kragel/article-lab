@@ -1,0 +1,31 @@
+# Global dependencies
+node_modules/
+
+# Local environments
+.env
+.env.*
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS and IDE files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Build outputs
+dist/
+build/
+
+# NestJS specific — in server/
+server/*.log
+server/coverage/
+
+# Test coverage
+coverage/
+*.lcov
