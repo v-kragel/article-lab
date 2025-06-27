@@ -11,7 +11,7 @@
   "bracketSpacing": true,
   "jsxBracketSameLine": true,
   "endOfLine": "lf",
-  "plugins": ["@trivago/prettier-plugin-sort-imports"],
+  "plugins": ["prettier-plugin-organize-imports"],
   "importOrder": ["^@nestjs/(.*)$", "^@/(.*)$", "^src/(.*)$", "^[./]"],
   "importOrderSeparation": true,
   "importOrderSortSpecifiers": true

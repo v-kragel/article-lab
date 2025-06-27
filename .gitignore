@@ -28,3 +28,6 @@ server/coverage/
 # Test coverage
 coverage/
 *.lcov
+
+# Prisma files
+server/generated/prisma
