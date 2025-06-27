@@ -6,3 +6,12 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Field {
+  id       String  @id @default(uuid())
+  name     String  @unique
+  type     String  @unique
+  key      String  @unique
+  required Boolean
+  order    Int?
+}
