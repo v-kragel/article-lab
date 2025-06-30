@@ -8,10 +8,31 @@ datasource db {
 }
 
 model Field {
-  id       String  @id @default(uuid())
-  name     String  @unique
-  type     String  @unique
-  key      String  @unique
-  required Boolean
-  order    Int?
+  id   String @id @default(uuid())
+  name String @unique
+  type String
+  key  String @unique
+
+  templateFields TemplateField[]
+}
+
+model Template {
+  id          String  @id @default(uuid())
+  name        String  @unique
+  description String?
+
+  templateFields TemplateField[]
+}
+
+model TemplateField {
+  template   Template @relation(fields: [templateId], references: [id])
+  templateId String
+
+  field   Field  @relation(fields: [fieldId], references: [id])
+  fieldId String
+
+  position Int?
+  required Boolean?
+
+  @@id([templateId, fieldId])
 }
