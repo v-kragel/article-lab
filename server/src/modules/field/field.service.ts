@@ -1,12 +1,12 @@
-import { PrismaService } from "@app/prisma";
 import { Injectable } from "@nestjs/common";
 import { Field } from "@prisma/client";
+import { FieldRepository } from "./field.repository";
 
 @Injectable()
 export class FieldService {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(private readonly fieldRepo: FieldRepository) {}
 
   async getAll(): Promise<Field[]> {
-    return await this.prismaService.field.findMany();
+    return await this.fieldRepo.findAll();
   }
 }
