@@ -25,14 +25,17 @@ model Template {
 }
 
 model TemplateField {
+  id String @id @default(uuid())
+
   template   Template @relation(fields: [templateId], references: [id])
   templateId String
 
   field   Field  @relation(fields: [fieldId], references: [id])
   fieldId String
 
+  label    String?
   position Int?
   required Boolean?
 
-  @@id([templateId, fieldId])
+  @@index([templateId])
 }
