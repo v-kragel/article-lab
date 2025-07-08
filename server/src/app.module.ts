@@ -7,7 +7,15 @@ import { TemplateModule } from "./modules/template";
 import { PrismaModule } from "./prisma";
 
 @Module({
-  imports: [ConfigModule.forRoot(), PrismaModule, FieldModule, TemplateModule],
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: ".env",
+    }),
+    PrismaModule,
+    FieldModule,
+    TemplateModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
