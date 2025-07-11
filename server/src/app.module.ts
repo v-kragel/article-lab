@@ -1,5 +1,6 @@
 import { Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
+import { LoggerModule } from "nestjs-pino";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { FieldModule } from "./modules/field";
@@ -12,6 +13,7 @@ import { PrismaModule } from "./prisma";
       isGlobal: true,
       envFilePath: ".env",
     }),
+    LoggerModule.forRoot(),
     PrismaModule,
     FieldModule,
     TemplateModule,
