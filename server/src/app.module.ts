@@ -12,10 +12,22 @@ import { PrismaModule } from "./prisma";
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: `.env.${process.env.NODE_ENV}`,
+      envFilePath: ".env",
       load: [databaseConfig, appConfig],
     }),
-    LoggerModule.forRoot(),
+    LoggerModule.forRoot({
+      pinoHttp: {
+        level: "debug",
+        transport: {
+          target: "pino-pretty",
+          options: {
+            colorize: true,
+            translateTime: "SYS:standard",
+            ignore: "pid,hostname",
+          },
+        },
+      },
+    }),
     PrismaModule,
     FieldModule,
     TemplateModule,
