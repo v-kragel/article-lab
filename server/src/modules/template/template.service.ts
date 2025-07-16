@@ -1,6 +1,7 @@
 import { PrismaService } from "@app/prisma";
 import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
 import { Prisma, Template } from "@prisma/client";
+import { PinoLogger } from "nestjs-pino";
 import { FieldRepository } from "../field";
 import { TemplateFieldRepository } from "../templateField";
 import { TEMPLATE_ERRORS } from "./constants";
@@ -16,7 +17,10 @@ export class TemplateService {
     private readonly templateRepo: TemplateRepository,
     private readonly fieldRepo: FieldRepository,
     private readonly templateFieldRepo: TemplateFieldRepository,
-  ) {}
+    private readonly logger: PinoLogger,
+  ) {
+    this.logger.setContext(TemplateService.name);
+  }
 
   private async assertTemplateExists(id: string): Promise<void> {
     const exists = await this.templateRepo.exists(id);
@@ -73,14 +77,20 @@ export class TemplateService {
   }
 
   async findAll(): Promise<Template[]> {
+    this.logger.info("Fetching all templates");
+
     return await this.templateRepo.findAll();
   }
 
   async findOne(id: string): Promise<TemplateWithFields> {
+    this.logger.info({ id }, "Fetching template by ID");
+
     return this.getTemplateWithFields(id);
   }
 
   async create(dto: CreateTemplateDto): Promise<TemplateWithFields> {
+    this.logger.info({ dto }, "Creating template");
+
     await this.assertFieldsExist(dto.fields);
 
     const templateId = await this.prisma.$transaction(async (tx) => {
@@ -91,15 +101,21 @@ export class TemplateService {
         },
       });
 
+      this.logger.info({ id: template.id }, "Template created in DB");
+
       await this.createTemplateFields(tx, template.id, dto.fields);
 
       return template.id;
     });
 
+    this.logger.info({ id: templateId }, "Template created with fields");
+
     return await this.getTemplateWithFields(templateId);
   }
 
   async update(id: string, dto: UpdateTemplateDto): Promise<TemplateWithFields> {
+    this.logger.info({ id, dto }, "Updating template");
+
     await this.assertTemplateExists(id);
 
     if (dto.fields) {
@@ -115,10 +131,14 @@ export class TemplateService {
         },
       });
 
+      this.logger.info({ id }, "Template updated");
+
       if (dto.fields) {
         await this.deleteTemplateFields(tx, id);
 
         await this.createTemplateFields(tx, id, dto.fields);
+
+        this.logger.info({ id }, "Template fields replaced");
       }
     });
 
@@ -126,6 +146,8 @@ export class TemplateService {
   }
 
   async remove(id: string): Promise<void> {
+    this.logger.info({ id }, "Removing template");
+
     await this.assertTemplateExists(id);
 
     await this.prisma.$transaction(async (tx) => {
@@ -133,5 +155,7 @@ export class TemplateService {
 
       await this.templateRepo.delete(tx, id);
     });
+
+    this.logger.info({ id }, "Template removed");
   }
 }

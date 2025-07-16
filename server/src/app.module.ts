@@ -1,8 +1,9 @@
 import { Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
-import { LoggerModule } from "nestjs-pino";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
+import { RequestContextModule } from "./common/context";
+import { LoggerModule } from "./common/logger";
 import { appConfig, databaseConfig } from "./config";
 import { FieldModule } from "./modules/field";
 import { TemplateModule } from "./modules/template";
@@ -15,19 +16,8 @@ import { PrismaModule } from "./prisma";
       envFilePath: ".env",
       load: [databaseConfig, appConfig],
     }),
-    LoggerModule.forRoot({
-      pinoHttp: {
-        level: "debug",
-        transport: {
-          target: "pino-pretty",
-          options: {
-            colorize: true,
-            translateTime: "SYS:standard",
-            ignore: "pid,hostname",
-          },
-        },
-      },
-    }),
+    LoggerModule,
+    RequestContextModule,
     PrismaModule,
     FieldModule,
     TemplateModule,
