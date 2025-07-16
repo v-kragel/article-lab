@@ -9,8 +9,6 @@ import {
   ParseUUIDPipe,
   Post,
   Put,
-  UsePipes,
-  ValidationPipe,
 } from "@nestjs/common";
 import { Template } from "@prisma/client";
 import { CreateTemplateDto, UpdateTemplateDto } from "./dto";
@@ -35,14 +33,12 @@ export class TemplateController {
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  @UsePipes(new ValidationPipe({ whitelist: true, transform: true }))
   async create(@Body() dto: CreateTemplateDto): Promise<TemplateWithFields> {
     return this.templateService.create(dto);
   }
 
   @Put(":id")
   @HttpCode(HttpStatus.OK)
-  @UsePipes(new ValidationPipe({ whitelist: true, transform: true }))
   async update(
     @Param("id", ParseUUIDPipe) id: string,
     @Body() dto: UpdateTemplateDto,
