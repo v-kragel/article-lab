@@ -28,6 +28,7 @@ This will start PostgreSQL in a Docker container in detached mode. Make sure Doc
 
 1. `cd server`
 2. `yarn install`
+3. `mkdir -p logs`
 
 ### Apply Database Migrations
 
