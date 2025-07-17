@@ -14,5 +14,5 @@ initial_check:
       - main
 
 include:
-  - local: 'server/gitlab-ci.yml'
-  # - local: 'client/gitlab-ci.yml'
+  - local: 'server/.gitlab-ci.yml'
+  # - local: 'client/.gitlab-ci.yml'
