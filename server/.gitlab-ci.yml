@@ -1,0 +1,17 @@
+run_server_unit_test:
+  stage: run_server_unit_test
+  script:
+    - echo "Running server unit tests..."
+    - cd server/
+    - yarn test
+  tags:
+    - $CI_COMMIT_BRANCH
+  only:
+    changes:
+      - server/**/*.*
+    refs:
+      - develop
+      - main
+  when: on_success
+  needs:
+    - initial_check

@@ -1,0 +1,18 @@
+stages:
+  - initial_check
+  - run_server_unit_test
+
+initial_check:
+  stage: initial_check
+  script:
+    - echo "Running initial branch check..."
+  tags:
+    - $CI_COMMIT_BRANCH
+  only:
+    refs:
+      - develop
+      - main
+
+include:
+  - local: 'server/gitlab-ci.yml'
+  # - local: 'client/gitlab-ci.yml'
