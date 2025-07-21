@@ -4,9 +4,10 @@ const prisma = new PrismaClient();
 
 export const seedFields = async () => {
   const fields: Prisma.FieldCreateInput[] = [
-    { name: "Title", type: "text", key: "title" },
-    { name: "Description", type: "textarea", key: "description" },
-    { name: "Line", type: "line", key: "line" },
+    { name: "author", type: "string" },
+    { name: "publish_date", type: "date" },
+    { name: "separator", type: "separator" },
+    { name: "paragraph", type: "string" },
   ];
 
   for (const data of fields) {

@@ -7,13 +7,24 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum FieldType {
+  string
+  number
+  date
+  boolean
+  separator
+}
+
 model Field {
-  id   String @id @default(uuid())
-  name String @unique
-  type String
-  key  String @unique
+  id          String    @id @default(uuid())
+  name        String    @unique
+  type        FieldType
+  description String?
 
   templateFields TemplateField[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 }
 
 model Template {
@@ -22,6 +33,10 @@ model Template {
   description String?
 
   templateFields TemplateField[]
+  articles       Article[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 }
 
 model TemplateField {
@@ -33,9 +48,41 @@ model TemplateField {
   field   Field  @relation(fields: [fieldId], references: [id])
   fieldId String
 
-  label    String?
-  position Int?
-  required Boolean?
+  label    String
+  position Int
+  required Boolean @default(false)
 
   @@index([templateId])
+  @@index([fieldId])
+}
+
+model Article {
+  id    String @id @default(uuid())
+  title String
+
+  templateId String
+  template   Template @relation(fields: [templateId], references: [id])
+
+  fieldValues ArticleFieldValue[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model ArticleFieldValue {
+  id String @id @default(uuid())
+
+  fieldName  String
+  fieldType  FieldType
+  fieldLabel String
+
+  articleId String
+  article   Article @relation(fields: [articleId], references: [id])
+
+  valueString  String?
+  valueNumber  Float?
+  valueDate    DateTime?
+  valueBoolean Boolean?
+
+  @@index([articleId])
 }

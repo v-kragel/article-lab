@@ -20,7 +20,7 @@ export class TemplateRepository {
 
   async findAll() {
     return this.prisma.template.findMany({
-      select: { id: true, name: true, description: true },
+      select: { id: true, name: true, description: true, createdAt: true, updatedAt: true },
       orderBy: { name: "asc" },
     });
   }
