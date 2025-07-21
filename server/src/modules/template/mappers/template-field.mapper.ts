@@ -9,28 +9,27 @@ export function mapDtoToTemplateFieldCreateInputs(
   return fields.map((f, index) => ({
     templateId,
     fieldId: f.id,
-    label: f.label ?? null,
+    label: f.label,
     position: index,
-    required: f.required ?? null,
+    required: f.required ?? false,
   }));
 }
 
 // from db entities → frontend dto
 export function mapTemplateFieldEntitiesToDtos(
   templateFields: {
-    field: { id: string; name: string; type: string; key: string };
-    label: string | null;
-    position: number | null;
-    required: boolean | null;
+    field: { id: string; name: string; type: string };
+    label: string;
+    position: number;
+    required: boolean;
   }[],
 ): TemplateFieldInputDto[] {
   return templateFields.map((tf) => ({
     id: tf.field.id,
     name: tf.field.name,
     type: tf.field.type,
-    key: tf.field.key,
-    label: tf.label ?? undefined,
-    position: tf.position ?? undefined,
-    required: tf.required ?? undefined,
+    label: tf.label,
+    position: tf.position,
+    required: tf.required ?? false,
   }));
 }

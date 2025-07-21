@@ -69,11 +69,11 @@ export class TemplateService {
       throw new NotFoundException(TEMPLATE_ERRORS.NOT_FOUND);
     }
 
-    const { name, description } = template;
+    const { name, description, createdAt, updatedAt } = template;
 
     const fields = mapTemplateFieldEntitiesToDtos(template.templateFields);
 
-    return { id, name, description, fields };
+    return { id, name, description, createdAt, updatedAt, fields };
   }
 
   async findAll(): Promise<Template[]> {

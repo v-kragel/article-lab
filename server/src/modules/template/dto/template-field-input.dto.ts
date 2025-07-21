@@ -10,12 +10,9 @@ export class TemplateFieldInputDto {
   @IsString()
   type: string;
 
-  @IsString()
-  key: string;
-
   @IsOptional()
   @IsString()
-  label?: string;
+  label: string;
 
   @IsOptional()
   @IsInt()
@@ -23,5 +20,5 @@ export class TemplateFieldInputDto {
 
   @IsOptional()
   @IsBoolean()
-  required?: boolean;
+  required: boolean;
 }
