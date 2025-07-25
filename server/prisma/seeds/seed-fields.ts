@@ -4,10 +4,11 @@ const prisma = new PrismaClient();
 
 export const seedFields = async () => {
   const fields: Prisma.FieldCreateInput[] = [
-    { name: "author", type: "string" },
-    { name: "publish_date", type: "date" },
-    { name: "separator", type: "separator" },
-    { name: "paragraph", type: "string" },
+    { name: "separator", displayName: "Separator", type: "none", displayType: "separator" },
+    { name: "input", displayName: "Input", type: "string", displayType: "input" },
+    { name: "textarea", displayName: "Textarea", type: "string", displayType: "textarea" },
+    { name: "checkbox", displayName: "Checkbox", type: "boolean", displayType: "checkbox" },
+    { name: "datepicker", displayName: "Datepicker", type: "date", displayType: "datepicker" },
   ];
 
   for (const data of fields) {

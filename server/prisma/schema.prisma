@@ -12,31 +12,50 @@ enum FieldType {
   number
   date
   boolean
+  none
+}
+
+enum FieldDisplayType {
+  input
+  textarea
+  select
+  checkbox
+  datepicker
   separator
 }
 
 model Field {
-  id          String    @id @default(uuid())
-  name        String    @unique
-  type        FieldType
+  id          String           @id @default(uuid())
+  name        String
+  displayName String           @default("")
   description String?
+  type        FieldType
+  displayType FieldDisplayType @default(input)
+  metadata    Json?
 
-  templateFields TemplateField[]
+  templateFields    TemplateField[]
+  ArticleFieldValue ArticleFieldValue[]
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+  deletedAt DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now()) @updatedAt
+
+  @@unique([name, deletedAt])
 }
 
 model Template {
   id          String  @id @default(uuid())
-  name        String  @unique
+  name        String
   description String?
 
   templateFields TemplateField[]
   articles       Article[]
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+  deletedAt DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now()) @updatedAt
+
+  @@unique([name, deletedAt])
 }
 
 model TemplateField {
@@ -48,10 +67,13 @@ model TemplateField {
   field   Field  @relation(fields: [fieldId], references: [id])
   fieldId String
 
-  label    String
+  label    String?
   position Int
   required Boolean @default(false)
 
+  metadata Json?
+
+  @@unique([templateId, position])
   @@index([templateId])
   @@index([fieldId])
 }
@@ -65,19 +87,21 @@ model Article {
 
   fieldValues ArticleFieldValue[]
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+  deletedAt DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now()) @updatedAt
+
+  @@index([templateId])
 }
 
 model ArticleFieldValue {
   id String @id @default(uuid())
 
-  fieldName  String
-  fieldType  FieldType
-  fieldLabel String
-
   articleId String
   article   Article @relation(fields: [articleId], references: [id])
+
+  fieldId String @default("")
+  field   Field  @relation(fields: [fieldId], references: [id])
 
   valueString  String?
   valueNumber  Float?

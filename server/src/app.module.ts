@@ -2,11 +2,12 @@ import { Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
-import { RequestContextModule } from "./common/context";
-import { ExceptionModule } from "./common/exceptions";
-import { LoggerModule } from "./common/logger";
-import { ResponseWrapperModule } from "./common/response-wrapper";
 import { appConfig, databaseConfig } from "./config";
+import { RequestContextModule } from "./infra/context";
+import { ExceptionModule } from "./infra/exceptions";
+import { LoggerModule } from "./infra/logger";
+import { ResponseWrapperModule } from "./infra/response-wrapper";
+import { ArticleModule } from "./modules/article";
 import { FieldModule } from "./modules/field";
 import { TemplateModule } from "./modules/template";
 import { PrismaModule } from "./prisma";
@@ -32,6 +33,7 @@ import { PrismaModule } from "./prisma";
     // Feature modules (business logic)
     FieldModule,
     TemplateModule,
+    ArticleModule,
   ],
   controllers: [AppController],
   providers: [AppService],

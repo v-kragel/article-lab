@@ -1,4 +1,4 @@
-import { LoggerModule } from "@app/common/logger";
+import { LoggerModule } from "@app/infra/logger";
 import { Module } from "@nestjs/common";
 import { PrismaService } from "./prisma.service";
 
