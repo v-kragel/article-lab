@@ -27,7 +27,7 @@ enum FieldDisplayType {
 model Field {
   id          String           @id @default(uuid())
   name        String
-  displayName String @default("")
+  displayName String           @default("")
   description String?
   type        FieldType
   displayType FieldDisplayType @default(input)
@@ -67,7 +67,7 @@ model TemplateField {
   field   Field  @relation(fields: [fieldId], references: [id])
   fieldId String
 
-  label    String
+  label    String?
   position Int
   required Boolean @default(false)
 
