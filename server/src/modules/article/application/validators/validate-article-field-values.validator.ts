@@ -15,86 +15,74 @@ export function validateArticleFieldValues(
 ) {
   const errors: ValidationError[] = [];
 
-  const fields = template.fields;
+  for (const field of template.fields) {
+    const { id, name, required, displayType, type } = field;
 
-  for (const inputField of inputValues) {
-    const { fieldId, value } = inputField;
-
-    const field = fields.find((f) => f.id === fieldId);
-
-    if (!field) {
-      errors.push({
-        fieldId,
-        message: `Field with ID "${fieldId}" does not exist in template.`,
-      });
+    if (!required || skipRequiredCheckTypes.includes(displayType)) {
       continue;
     }
 
-    const valueType = typeof value;
+    const dto = inputValues.find((iv) => iv.fieldId === id);
+    const value = dto?.value;
+
     const isEmpty =
       value === null || value === undefined || (typeof value === "string" && value.trim() === "");
 
-    const { required, displayType } = field;
-
-    if (required && !skipRequiredCheckTypes.includes(displayType) && isEmpty) {
+    if (isEmpty) {
       errors.push({
-        fieldId,
-        message: `Field "${field.name}" is required.`,
+        fieldId: id,
+        message: `Field "${name}" is required.`,
       });
       continue;
     }
 
-    if (!isEmpty) {
-      const { type } = field;
-
-      switch (type) {
-        case "string": {
-          if (valueType !== "string") {
-            errors.push({
-              fieldId,
-              message: `Field "${field.name}" must be a string.`,
-            });
-          }
-          break;
-        }
-        case "number": {
-          if (valueType !== "number" || Number.isNaN(value as number)) {
-            errors.push({
-              fieldId,
-              message: `Field "${field.name}" must be a number.`,
-            });
-          }
-          break;
-        }
-        case "boolean": {
-          if (valueType !== "boolean") {
-            errors.push({
-              fieldId,
-              message: `Field "${field.name}" must be a boolean.`,
-            });
-          }
-          break;
-        }
-        case "date": {
-          if (
-            !(value instanceof Date) &&
-            !(typeof value === "string" && !Number.isNaN(Date.parse(value)))
-          ) {
-            errors.push({
-              fieldId,
-              message: `Field "${field.name}" must be a date.`,
-            });
-          }
-          break;
-        }
-        case "none":
-          break;
-        default:
+    switch (type) {
+      case "string": {
+        if (typeof value !== "string") {
           errors.push({
-            fieldId,
-            message: `Unsupported field type "${field.name}".`,
+            fieldId: id,
+            message: `Field "${name}" must be a string.`,
           });
+        }
+        break;
       }
+      case "number": {
+        if (typeof value !== "number" || Number.isNaN(value)) {
+          errors.push({
+            fieldId: id,
+            message: `Field "${name}" must be a number.`,
+          });
+        }
+        break;
+      }
+      case "boolean": {
+        if (typeof value !== "boolean") {
+          errors.push({
+            fieldId: id,
+            message: `Field "${name}" must be a boolean.`,
+          });
+        }
+        break;
+      }
+      case "date": {
+        if (
+          !(value instanceof Date) &&
+          !(typeof value === "string" && !Number.isNaN(Date.parse(value)))
+        ) {
+          errors.push({
+            fieldId: id,
+            message: `Field "${name}" must be a date.`,
+          });
+        }
+        break;
+      }
+      case "none":
+        break;
+      default:
+        errors.push({
+          fieldId: id,
+          message: `Unsupported field type "${type}" for field ${name}.`,
+        });
     }
   }
 
