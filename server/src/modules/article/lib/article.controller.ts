@@ -1,3 +1,4 @@
+import { Article } from "@prisma/client";
 import {
   Body,
   Controller,
@@ -10,7 +11,6 @@ import {
   Post,
   Put,
 } from "@nestjs/common";
-import { Article } from "@prisma/client";
 import {
   ArticleResponseDto,
   ArticleService,

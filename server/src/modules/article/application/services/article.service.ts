@@ -4,8 +4,8 @@ import {
 } from "@app/modules/articleFieldValue";
 import { TemplateService } from "@app/modules/template";
 import { PrismaService } from "@app/prisma";
-import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
 import { Article, Prisma } from "@prisma/client";
+import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
 import { PinoLogger } from "nestjs-pino";
 import { ARTICLE_ERRORS } from "../../domain";
 import { ArticleRepository } from "../../lib/article.repository";

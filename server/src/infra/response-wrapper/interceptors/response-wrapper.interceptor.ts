@@ -5,9 +5,10 @@ import { map, Observable } from "rxjs";
 import { ResponseWrapperDto } from "../dto/response-wrapper.dto";
 
 @Injectable()
-export class ResponseWrapperInterceptor<T>
-  implements NestInterceptor<T, ResponseWrapperInterceptor<T>>
-{
+export class ResponseWrapperInterceptor<T> implements NestInterceptor<
+  T,
+  ResponseWrapperInterceptor<T>
+> {
   intercept(
     context: ExecutionContext,
     next: CallHandler<T>,

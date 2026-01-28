@@ -1,5 +1,4 @@
-import { FieldDisplayType, FieldType } from "@prisma/client";
-import { JsonValue } from "@prisma/client/runtime/library";
+import { FieldDisplayType, FieldType, type Prisma } from "@prisma/client";
 import { IsBoolean, IsEnum, IsJSON, IsOptional, IsString, IsUUID } from "class-validator";
 
 export class TemplateFieldResponseDto {
@@ -28,5 +27,5 @@ export class TemplateFieldResponseDto {
 
   @IsOptional()
   @IsJSON()
-  metadata: JsonValue | null;
+  metadata: Prisma.JsonValue | null;
 }

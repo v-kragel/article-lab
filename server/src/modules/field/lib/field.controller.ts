@@ -1,5 +1,5 @@
-import { Controller, Get, HttpCode, HttpStatus } from "@nestjs/common";
 import { Field } from "@prisma/client";
+import { Controller, Get, HttpCode, HttpStatus } from "@nestjs/common";
 import { FieldService } from "../application";
 
 @Controller("fields")
