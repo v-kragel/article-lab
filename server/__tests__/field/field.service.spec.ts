@@ -1,6 +1,6 @@
 import { FieldRepository, FieldService } from "@app/modules/field";
+import { Prisma } from "@prisma/client";
 import { Test, TestingModule } from "@nestjs/testing";
-import { Field } from "@prisma/client";
 import { randomUUID } from "crypto";
 
 describe("FieldService", () => {
@@ -29,9 +29,17 @@ describe("FieldService", () => {
   });
 
   it("should return all fields from repository", async () => {
-    const mockFields: Field[] = [
-      { id: randomUUID(), name: "Field 1", type: "Type 1", key: "Key 1" },
-      { id: randomUUID(), name: "Field 2", type: "Type 2", key: "Key 2" },
+    const mockFields: Prisma.FieldCreateInput[] = [
+      {
+        id: randomUUID(),
+        name: "Field 1",
+        type: "string",
+      },
+      {
+        id: randomUUID(),
+        name: "Field 2",
+        type: "string",
+      },
     ];
 
     fieldRepoMock.findAll.mockResolvedValue(mockFields);

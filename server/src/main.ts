@@ -10,6 +10,10 @@ async function bootstrap() {
 
   app.useLogger(app.get(Logger));
 
+  app.enableCors({
+    origin: "http://localhost:5173",
+  });
+
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,

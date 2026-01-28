@@ -4,7 +4,7 @@ import { useMemo } from "react";
 
 import { useAppDispatch } from "@/shared/hooks";
 
-import { fieldSlice } from "../slice";
+import { fieldSlice } from "../model/slice";
 
 export const useFieldActions = () => {
   const dispatch = useAppDispatch();

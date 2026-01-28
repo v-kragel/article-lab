@@ -1,3 +1,4 @@
+import { Template } from "@prisma/client";
 import {
   Body,
   Controller,
@@ -10,7 +11,6 @@ import {
   Post,
   Put,
 } from "@nestjs/common";
-import { Template } from "@prisma/client";
 import {
   CreateTemplateDto,
   TemplateResponseDto,

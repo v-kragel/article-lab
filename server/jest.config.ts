@@ -17,7 +17,7 @@ const config: Config = {
     "^@infra/(.*)$": "<rootDir>/src/infra/$1",
     "^@constants/(.*)$": "<rootDir>/src/constants/$1",
   },
-  moduleDirectories: ['<rootDir>/../', 'node_modules'],
+  moduleDirectories: ["<rootDir>/../", "node_modules"],
 };
 
 export default config;

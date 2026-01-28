@@ -1,6 +1,6 @@
 import { PrismaService } from "@app/prisma";
-import { Injectable } from "@nestjs/common";
 import { Prisma, Template } from "@prisma/client";
+import { Injectable } from "@nestjs/common";
 
 @Injectable()
 export class TemplateRepository {

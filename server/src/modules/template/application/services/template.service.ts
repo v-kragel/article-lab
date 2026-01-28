@@ -1,18 +1,18 @@
 import { FieldService } from "@app/modules/field";
 import { CreateTemplateFieldDto, TemplateFieldService } from "@app/modules/templateField";
 import { PrismaService } from "@app/prisma";
+import { Prisma, Template } from "@prisma/client";
 import {
   BadRequestException,
   ConflictException,
   Injectable,
   NotFoundException,
 } from "@nestjs/common";
-import { Prisma, Template } from "@prisma/client";
 import { PinoLogger } from "nestjs-pino";
 import { TEMPLATE_ERRORS } from "../../domain";
+import { TemplateRepository } from "../../lib/template.repository";
 import { CreateTemplateDto, TemplateResponseDto, UpdateTemplateDto } from "../dto";
 import { mapDtoToTemplateFields, mapPrismaTemplateToDto } from "../mappers";
-import { TemplateRepository } from '../../lib/template.repository';
 
 @Injectable()
 export class TemplateService {
@@ -113,7 +113,7 @@ export class TemplateService {
     if (dto.name) {
       const nameExists = await this.templateRepo.existsByName(dto.name);
 
-      if (!!nameExists) {
+      if (nameExists) {
         throw new ConflictException(TEMPLATE_ERRORS.NAME_EXISTS);
       }
     }
